@@ -9,14 +9,9 @@ class Kredit(db.Model):
 
     def izracunaj_trosak(self):
         return self.iznos + (self.iznos * (self.kamatna_stopa / 100))
-    
 
-
-
-
-
-
-
+'''
+testiranje baze
 import mysql.connector
 import mysql
 
@@ -67,3 +62,4 @@ update_kamatna_stopa(1, 3.8)
 
 cursor.close()
 conn.close()
+'''
