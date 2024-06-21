@@ -14,3 +14,5 @@ class Kredit(db.Model):
 
     def repr(self):
         return f'<Kredit {self.vrsta}>'
+    
+    
