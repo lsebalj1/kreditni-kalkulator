@@ -5,7 +5,6 @@ from kredit import Kredit
 
 app = create_app()
 
-# Rute
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -50,7 +49,6 @@ from kredit import Kredit
 
 app = create_app()
 
-# Rute
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -91,7 +89,6 @@ if __name__ == '__main__':
     from kredit import Kredit
 
     with app.app_context():
-        # Insert Kredit data
         kredit_data = [
             ('Hipotekarni', 3.5, 200000.00, '2022-01-01', 240, 1200.00, 'aktivan', 'Ivan Horvat'),
             ('Auto', 5.0, 25000.00, '2023-03-01', 60, 500.00, 'aktivan', 'Ana Kovač'),
@@ -113,7 +110,6 @@ if __name__ == '__main__':
             )
             db.session.add(kredit)
 
-        # Insert Banka data
         banka_data = [
             ('Erste', 'Jadranski trg 3A, 51000 Rijeka', '0800 7890', 0.5),
             ('OTP Banka', 'Domovinskog rata 61 Split', '0800 210 021', 0.7), 
@@ -130,7 +126,7 @@ if __name__ == '__main__':
                 adresa=data[1],
                 broj_telefona=data[2],
                 utjecaj_na_stopu=data[3],
-                kredit_id=idx + 1  # Assuming kredit_id corresponds to the index + 1
+                kredit_id=idx + 1  
             )
             db.session.add(banka)
 
