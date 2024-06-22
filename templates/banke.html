@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popis Banki</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Kreditni Kalkulator</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Početna</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/kalkulator">Kalkulator</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/banke">Banke</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        <h1>Popis Banki</h1>
+        <table class="table table-bordered">
+            <thead class="thead-light">
+                <tr>
+                    <th>Naziv</th>
+                    <th>Adresa</th>
+                    <th>Broj Telefona</th>
+                    <th>Utjecaj na Stopu (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for banka in banke %}
+                <tr>
+                    <td>{{ banka.naziv }}</td>
+                    <td>{{ banka.adresa }}</td>
+                    <td>{{ banka.broj_telefona }}</td>
+                    <td>{{ banka.utjecaj_na_stopu }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

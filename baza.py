@@ -10,7 +10,7 @@ def create_app():
     db.init_app(app)
     return app
 
-
+'''
 
 import sqlite3
 
@@ -38,3 +38,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+'''

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kreditni Kalkulator</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Kreditni Kalkulator</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Početna</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/kalkulator">Kalkulator</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/banke">Banke</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        <h1>Kreditni Kalkulator</h1>
+        <form method="post" action="/kalkulator">
+            <div class="form-group">
+                <label for="vrsta">Vrsta Kredita</label>
+                <input type="text" class="form-control" id="vrsta" name="vrsta" required>
+            </div>
+            <div class="form-group">
+                <label for="iznos">Iznos</label>
+                <input type="number" class="form-control" id="iznos" name="iznos" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="kamatna_stopa">Kamatna Stopa (%)</label>
+                <input type="number" class="form-control" id="kamatna_stopa" name="kamatna_stopa" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="banka_id">Banka</label>
+                <select class="form-control" id="banka_id" name="banka_id" required>
+                    {% for banka in banke %}
+                        <option value="{{ banka.id }}">{{ banka.naziv }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Izračunaj</button>
+        </form>
+
+        {% if trosak is not none %}
+        <div class="mt-4">
+            <h2>Trošak Kredita</h2>
+            <p>Ukupni trošak kredita: <strong>{{ trosak }}</strong></p>
+        </div>
+        {% elif error_message %}
+        <div class="mt-4 alert alert-danger">
+            <p>{{ error_message }}</p>
+        </div>
+        {% endif %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
