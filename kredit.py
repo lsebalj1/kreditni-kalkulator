@@ -3,7 +3,7 @@ from baza import db
 
 class Kredit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    vrsta = db.Column(db.String(80), nullable=False)
+    vrsta_kredita = db.Column(db.String(80), nullable=False)
     kamatna_stopa = db.Column(db.Float, nullable=False)
     iznos = db.Column(db.Float, nullable=False)
     datum_pocetka = db.Column(db.Date, nullable=False)
@@ -13,6 +13,6 @@ class Kredit(db.Model):
     duznik = db.Column(db.String(100), nullable=False)
 
     def repr(self):
-        return f'<Kredit {self.vrsta}>'
+        return f'<Kredit {self.vrsta_kredita}>'
     
     

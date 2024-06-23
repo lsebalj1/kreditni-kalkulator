@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from baza import create_app, db
 from banka import Banka
-from kredit import Kredit
+from kredit import Kredit  
 
 app = create_app()
 
@@ -14,7 +14,7 @@ def kalkulator():
     banke = Banka.query.all() 
 
     if request.method == 'POST':
-        vrsta = request.form.get('vrsta')
+        vrsta_kredita = request.form.get('vrsta_kredita')
         iznos = float(request.form.get('iznos'))
         kamatna_stopa = float(request.form.get('kamatna_stopa'))
         banka_id = int(request.form.get('banka_id'))  
@@ -25,7 +25,7 @@ def kalkulator():
             utjecaj_stopa = banka.utjecaj_na_stopu
             adjusted_kamatna_stopa = kamatna_stopa + utjecaj_stopa
 
-            kredit = Kredit(vrsta_kredita=vrsta, iznos=iznos, kamatna_stopa=adjusted_kamatna_stopa, banka_id=banka_id)
+            kredit = Kredit(vrsta_kredita=vrsta_kredita, iznos=iznos, kamatna_stopa=adjusted_kamatna_stopa, banka_id=banka_id)
             trosak = kredit.izracunaj_trosak()
 
             db.session.add(kredit)
