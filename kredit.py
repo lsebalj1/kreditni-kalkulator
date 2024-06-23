@@ -1,5 +1,5 @@
-
 from baza import db
+from datetime import date
 
 class Kredit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -11,8 +11,19 @@ class Kredit(db.Model):
     mjesecna_rata = db.Column(db.Float, nullable=False)
     status = db.Column(db.String(20), nullable=False)
     duznik = db.Column(db.String(100), nullable=False)
+    banka_id = db.Column(db.Integer, db.ForeignKey('banka.id'), nullable=False)
 
-    def repr(self):
+    def __repr__(self):
         return f'<Kredit {self.vrsta}>'
-    
-    
+
+    def izracunaj_trosak(self):
+        monthly_rate = self.kamatna_stopa / 100 / 12
+        total_payments = self.trajanje
+
+        if monthly_rate > 0:
+            mjesecna_rata = (self.iznos * monthly_rate) / (1 - (1 + monthly_rate) ** -total_payments)
+        else:
+            mjesecna_rata = self.iznos / total_payments
+
+        total_cost = mjesecna_rata * total_payments
+        return total_cost

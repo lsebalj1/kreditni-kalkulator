@@ -6,9 +6,7 @@ class Banka(db.Model):
     adresa = db.Column(db.String(200), nullable=False)
     broj_telefona = db.Column(db.String(20), nullable=True)  
     utjecaj_na_stopu = db.Column(db.Float, nullable=False)
-    kredit_id = db.Column(db.Integer, db.ForeignKey('kredit.id'), nullable=True)  
     krediti = db.relationship('Kredit', backref='banka', lazy=True)
 
-    def repr(self):
+    def __repr__(self):
         return f'<Banka {self.naziv}>'
-    

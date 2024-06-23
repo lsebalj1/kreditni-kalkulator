@@ -11,13 +11,13 @@ def index():
 
 @app.route('/kalkulator', methods=['GET', 'POST'])
 def kalkulator():
-    banke = Banka.query.all() 
+    banke = Banka.query.all()
 
     if request.method == 'POST':
         vrsta = request.form.get('vrsta')
         iznos = float(request.form.get('iznos'))
         kamatna_stopa = float(request.form.get('kamatna_stopa'))
-        banka_id = int(request.form.get('banka_id'))  
+        banka_id = int(request.form.get('banka_id'))
 
         banka = Banka.query.get(banka_id)
 
@@ -25,7 +25,7 @@ def kalkulator():
             utjecaj_stopa = banka.utjecaj_na_stopu
             adjusted_kamatna_stopa = kamatna_stopa + utjecaj_stopa
 
-            kredit = Kredit(vrsta_kredita=vrsta, iznos=iznos, kamatna_stopa=adjusted_kamatna_stopa, banka_id=banka_id)
+            kredit = Kredit(vrsta=vrsta, iznos=iznos, kamatna_stopa=adjusted_kamatna_stopa, banka_id=banka_id)
             trosak = kredit.izracunaj_trosak()
 
             db.session.add(kredit)
@@ -42,11 +42,10 @@ def banke():
     banke = Banka.query.all()
     return render_template('banke.html', banke=banke)
 
-if __name__ == '__main__':
-    from banka import Banka
-    from kredit import Kredit
-
+def create_tables():
     with app.app_context():
+        db.create_all()
+
         kredit_data = [
             ('Hipotekarni', 3.5, 200000.00, '2022-01-01', 240, 1200.00, 'aktivan', 'Ivan Horvat'),
             ('Auto', 5.0, 25000.00, '2023-03-01', 60, 500.00, 'aktivan', 'Ana Kovač'),
@@ -57,7 +56,7 @@ if __name__ == '__main__':
 
         for data in kredit_data:
             kredit = Kredit(
-                vrsta_kredita=data[0],
+                vrsta=data[0],
                 kamatna_stopa=data[1],
                 iznos=data[2],
                 datum_pocetka=data[3],
@@ -70,7 +69,7 @@ if __name__ == '__main__':
 
         banka_data = [
             ('Erste', 'Jadranski trg 3A, 51000 Rijeka', '0800 7890', 0.5),
-            ('OTP Banka', 'Domovinskog rata 61 Split', '0800 210 021', 0.7), 
+            ('OTP Banka', 'Domovinskog rata 61 Split', '0800 210 021', 0.7),
             ('PBZ', 'Radnička cesta 50, 10000 Zagreb', '01 636 0000', 0.6),
             ('HPB', 'Jurišićeva ulica 4,  Zagreb', '0800 472 472 ', 0.8),
             ('Addiko Bank', 'Slavonska avenija 6 , Zagreb', '01 6030 000', 0.9),
@@ -78,16 +77,17 @@ if __name__ == '__main__':
             ('IKB', 'Ernesta Miloša 1, Umag', '052 702 400', 0.3)
         ]
 
-        for idx, data in enumerate(banka_data):
+        for data in banka_data:
             banka = Banka(
                 naziv=data[0],
                 adresa=data[1],
                 broj_telefona=data[2],
-                utjecaj_na_stopu=data[3],
-                kredit_id=idx + 1  
+                utjecaj_na_stopu=data[3]
             )
             db.session.add(banka)
 
         db.session.commit()
 
+if __name__ == '__main__':
+    create_tables()
     app.run(debug=True)
