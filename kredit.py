@@ -29,3 +29,4 @@ class Kredit(db.Model):
 
         total_cost = mjesecna_rata * total_payments
         return total_cost
+    
