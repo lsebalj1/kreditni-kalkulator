@@ -30,10 +30,13 @@ def kalkulator():
             kredit = Kredit(vrsta=vrsta, iznos=iznos, kamatna_stopa=adjusted_kamatna_stopa, banka_id=banka_id)
             trosak = kredit.izracunaj_trosak()
 
-            db.session.add(kredit)
-            db.session.commit()
-
-            return render_template('kalkulator.html', trosak=trosak, banke=banke)
+            if trosak is not None:  
+                db.session.add(kredit)
+                db.session.commit()
+                return render_template('kalkulator.html', trosak=trosak, banke=banke)
+            else:
+                error_message = 'Nije moguće izračunati trošak kredita. Provjerite unos.'
+                return render_template('kalkulator.html', error_message=error_message, banke=banke)
         else:
             return render_template('kalkulator.html', error_message='Banka not found.', banke=banke)
 
