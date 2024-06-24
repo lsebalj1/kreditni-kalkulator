@@ -6,6 +6,7 @@ from app.database.kredit import Kredit
 def _create_tables(app,db):
     with app.app_context():
         print("Stvaranje tablica")
+        
         db.create_all()
 
         banka_data = [

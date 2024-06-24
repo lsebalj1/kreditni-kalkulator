@@ -8,7 +8,7 @@ from .. import setup
 def _kalkulator():
     
     db = setup.db   
-    banke = Banka.query.all()
+    bank_list = Banka.query.all()
 
     if request.method == 'POST':
         vrsta = request.form.get('vrsta')
@@ -36,4 +36,4 @@ def _kalkulator():
             return render_template('kalkulator.html', error_message='Banka not found.', banke=banke)
         
     if request.method == 'GET':
-       return render_template('kalkulator.html', banke=banke)
+       return render_template('kalkulator.html', banke=bank_list)
