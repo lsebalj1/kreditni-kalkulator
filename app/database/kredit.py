@@ -1,12 +1,12 @@
 from app.setup import db
-from datetime import date
+from datetime import datetime
 
 class Kredit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     vrsta = db.Column(db.String(80), nullable=False)
     kamatna_stopa = db.Column(db.Float, nullable=False)
     iznos = db.Column(db.Float, nullable=False)
-    datum_pocetka = db.Column(db.Date, nullable=False)
+    datum_pocetka = db.Column(db.DateTime, nullable=False)
     trajanje = db.Column(db.Integer, nullable=False)
     mjesecna_rata = db.Column(db.Float, nullable=False)
     status = db.Column(db.String(20), nullable=False)
