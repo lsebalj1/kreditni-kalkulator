@@ -3,7 +3,7 @@ from app.database.banka import Banka
 from app.database.kredit import Kredit
 
 
-def _create_tables(app, db):
+def _create_tables(app,db):
     with app.app_context():
         print("Stvaranje tablica")
         db.create_all()

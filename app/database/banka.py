@@ -1,4 +1,4 @@
-from app.setup import db
+from .. setup import db
 
 class Banka(db.Model):
     id = db.Column(db.Integer, primary_key=True)

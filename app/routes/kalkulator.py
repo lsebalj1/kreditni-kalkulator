@@ -34,5 +34,6 @@ def _kalkulator():
                 return render_template('kalkulator.html', error_message=error_message, banke=banke)
         else:
             return render_template('kalkulator.html', error_message='Banka not found.', banke=banke)
-
-    return render_template('kalkulator.html', banke=banke)
+        
+    if request.method == 'GET':
+       return render_template('kalkulator.html', banke=banke)
