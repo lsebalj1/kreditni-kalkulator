@@ -10,3 +10,12 @@ class Banka(db.Model):
 
     def __repr__(self):
         return f'<Banka {self.naziv}>'
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'naziv': self.naziv,
+            'adresa': self.adresa,
+            'broj_telefona': self.broj_telefona,
+            'utjecaj_na_stopu': self.utjecaj_na_stopu
+        }

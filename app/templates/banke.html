@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Popis Banki</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .crud-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -25,6 +31,28 @@
     </nav>
     <div class="container mt-4">
         <h1>Popis Banki</h1>
+
+        <form id="create-form" class="mb-4">
+            <h3>Dodaj Novu Banku</h3>
+            <div class="form-group">
+                <label for="naziv">Naziv</label>
+                <input type="text" class="form-control" id="naziv" name="naziv" required>
+            </div>
+            <div class="form-group">
+                <label for="adresa">Adresa</label>
+                <input type="text" class="form-control" id="adresa" name="adresa" required>
+            </div>
+            <div class="form-group">
+                <label for="broj_telefona">Broj Telefona</label>
+                <input type="text" class="form-control" id="broj_telefona" name="broj_telefona">
+            </div>
+            <div class="form-group">
+                <label for="utjecaj_na_stopu">Utjecaj na Stopu (%)</label>
+                <input type="number" class="form-control" id="utjecaj_na_stopu" name="utjecaj_na_stopu" step="0.01" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Dodaj Banku</button>
+        </form>
+
         <table class="table table-bordered">
             <thead class="thead-light">
                 <tr>
@@ -32,6 +60,7 @@
                     <th>Adresa</th>
                     <th>Broj Telefona</th>
                     <th>Utjecaj na Stopu (%)</th>
+                    <th>Akcije</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,12 +70,115 @@
                     <td>{{ banka.adresa }}</td>
                     <td>{{ banka.broj_telefona }}</td>
                     <td>{{ banka.utjecaj_na_stopu }}</td>
+                    <td class="crud-buttons">
+                        <button class="btn btn-warning btn-sm" onclick="showUpdateForm('{{ banka.id }}', '{{ banka.naziv }}', '{{ banka.adresa }}', '{{ banka.broj_telefona }}', {{ banka.utjecaj_na_stopu }});">Uredi</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteBanka('{{ banka.id }}');">Obriši</button>
+                    </td>                    
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+
+    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateModalLabel">Ažuriraj Banku</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="update-form">
+                    <div class="modal-body">
+                        <input type="hidden" id="update_id">
+                        <div class="form-group">
+                            <label for="update_naziv">Naziv</label>
+                            <input type="text" class="form-control" id="update_naziv" name="naziv" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="update_adresa">Adresa</label>
+                            <input type="text" class="form-control" id="update_adresa" name="adresa" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="update_broj_telefona">Broj Telefona</label>
+                            <input type="text" class="form-control" id="update_broj_telefona" name="broj_telefona">
+                        </div>
+                        <div class="form-group">
+                            <label for="update_utjecaj_na_stopu">Utjecaj na Stopu (%)</label>
+                            <input type="number" class="form-control" id="update_utjecaj_na_stopu" name="utjecaj_na_stopu" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+                        <button type="submit" class="btn btn-primary">Spremi promjene</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('create-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            const response = await fetch('/api/banke', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Greška prilikom kreiranja banke.');
+            }
+        });
+
+        function showUpdateForm(id, naziv, adresa, broj_telefona, utjecaj_na_stopu) {
+            $('#updateModal').modal('show');
+            document.getElementById('update_id').value = id;
+            document.getElementById('update_naziv').value = naziv;
+            document.getElementById('update_adresa').value = adresa;
+            document.getElementById('update_broj_telefona').value = broj_telefona;
+            document.getElementById('update_utjecaj_na_stopu').value = utjecaj_na_stopu;
+        }
+
+        document.getElementById('update-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const id = document.getElementById('update_id').value;
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            const response = await fetch(`/api/banke/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Greška prilikom ažuriranja banke.');
+            }
+        });
+
+        async function deleteBanka(id) {
+            if (confirm('Jeste li sigurni da želite obrisati ovu banku?')) {
+                const response = await fetch(`/api/banke/${id}`, {
+                    method: 'DELETE'
+                });
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('Greška prilikom brisanja banke.');
+                }
+            }
+        }
+    </script>
 </body>
 </html>
