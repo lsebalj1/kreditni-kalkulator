@@ -10,6 +10,7 @@ db = setup.db
 
 ############# REGISTER BLUEPRINTS ####################
 app.register_blueprint(banke_bp)
+app.register_blueprint(kalkulator_bp)
 
 ############# ROUTES ####################
 @app.route('/')
