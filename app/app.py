@@ -2,6 +2,7 @@ from flask import Flask
 from app.routes import index, kalkulator
 from app.database import create_tables
 from app.routes.banka import banke_bp  
+from app.routes.kalkulator import kalkulator_bp  
 from . import setup
 
 ############# DEFINING APP AND DB ###############
