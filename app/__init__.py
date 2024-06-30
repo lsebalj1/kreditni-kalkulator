@@ -12,7 +12,7 @@ from .setup import _create_app
 from flask import Blueprint
 
 
-from .kalkulator import kalkulator_bp
-from .banka import banke_bp
+#from .kalkulator import kalkulator_bp
+#from .banka import banke_bp
 
 __all__ = ['kalkulator_bp', 'banke_bp']
