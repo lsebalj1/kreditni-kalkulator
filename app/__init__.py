@@ -8,6 +8,7 @@ from .database.kredit import Kredit
 from .database.create_tables import _create_tables
 from .setup import _create_app
 
+
 from flask import Blueprint
 
 
