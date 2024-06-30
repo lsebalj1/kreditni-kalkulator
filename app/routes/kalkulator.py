@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app.database.banka import Banka
 from app.database.kredit import Kredit
+from app.setup import db
 from .. import setup
 import datetime
 
