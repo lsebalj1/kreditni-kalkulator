@@ -22,6 +22,22 @@ def _route_kalkulator():
     kalkulator_route = kalkulator._kalkulator()
     return kalkulator_route
 
+@app.route('/krediti', methods=['GET'])
+def list_krediti():
+    return kalkulator.list_krediti()
+
+@app.route('/krediti/<int:id>', methods=['GET'])
+def view_kredit(id):
+    return kalkulator.view_kredit(id)
+
+@app.route('/krediti/<int:id>/edit', methods=['GET', 'POST'])
+def edit_kredit(id):
+    return kalkulator.edit_kredit(id)
+
+@app.route('/krediti/<int:id>/delete', methods=['POST'])
+def delete_kredit(id):
+    return kalkulator.delete_kredit(id)
+
 ############# RUN ####################
 if __name__ == '__main__':
     print("Running")
